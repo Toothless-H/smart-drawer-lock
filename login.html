@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login of Registratie</title>
+  <link rel="stylesheet" href="styles/style.css?v=6" />
+</head>
+<body>
+  <h1>Login</h1>
+
+  <div id="auth-status"></div>
+
+  <input type="email" id="email" placeholder="E-mailadres" />
+  <br><br>
+  <input type="password" id="password" placeholder="Wachtwoord" />
+  <br><br>
+
+  <button id="login-btn">Inloggen</button>
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+  <script type="module" src="scripts/firebase-config.js"></script>
+  <script type="module" src="scripts/auth.js"></script>
+  <script type="module" src="scripts/authGuard.js"></script>
+</body>
+</html>
