@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const logTable = document.getElementById("log-table-body");
 
   const auth = getAuth();
+  const commandRef = ref(db, '/command');
 
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
@@ -23,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (button && status) {
     button.addEventListener("click", async () => {
-      status.textContent = "Slot open";
       try {
         await set(ref(db, "command"), "A");
 
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(async () => {
           await set(ref(db, "command"), "B");
-          status.textContent = "Slot gesloten";
         }, 3000);
       } catch (error) {
         console.error("Error sending command:", error);
@@ -69,6 +68,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+// Real-time command updates
+  onValue(commandRef, (snapshot) => {
+  const command = snapshot.val();
+  if (command === 'A') {
+    status.textContent = "Slot open";
+    alert('Open commando in database!');
+  }
+  if (command === 'B') {
+    status.textContent = "Slot gesloten";
+    alert('Sluit commando in database!');
+  }
+});
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js')
       .then((registration) => {
@@ -86,4 +98,5 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(error => console.error('SW registration failed:', error));
   }
+  
 });

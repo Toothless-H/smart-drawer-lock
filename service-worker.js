@@ -1,8 +1,9 @@
-const CACHE_NAME = "esp32-controller-v8"; // Change version to bust cache
+const CACHE_NAME = "lade-slot-v14";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/login.html",
+  "/offline.html",
   "/styles/style.css",
   "/scripts/script.js",
   "/scripts/firebase-config.js",
@@ -34,14 +35,16 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return (
-        response ||
-        fetch(event.request).catch(() =>
-          caches.match("/")
-        )
-      );
-    })
-  );
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match('/offline.html'))
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
+
